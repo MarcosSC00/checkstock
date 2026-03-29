@@ -1,0 +1,55 @@
+import { NavLink } from "react-router-dom";
+
+export function Navigation() {
+
+  return (
+    <div className="px-6 py-4 w-full bg-white border-b 
+    border-gray-200 hidden md:block">
+      <nav>
+        <ul className="flex items-start flex-col md:items-center 
+        md:flex-row md:w-full text-right gap-8 text-sm 
+        font-semibold text-gray-400">
+          <li>
+            <NavLink 
+              to="/dashboard"
+              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
+              ${
+                isActive
+                  ? "border-b-2 border-gray-600 text-gray-600"
+                  : ""
+              }`}
+            >
+                Início
+            </NavLink>
+          </li>
+          <li>
+            <NavLink 
+              to="/equipaments"
+              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
+              ${
+                isActive
+                  ? "border-b-2 border-gray-600 text-gray-600"
+                  : ""
+              }`}
+            >
+                Equipamentos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink 
+              to="/consumptions"
+              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
+              ${
+                  isActive
+                  ? "border-b-2 border-gray-600 text-gray-600"
+                  : ""
+              }`}
+            >
+                Consumo
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+}
