@@ -20,7 +20,7 @@ export function Login() {
     try {
       setLoading(true);
       await login(data.email, data.password);
-      navigate("/home");
+      navigate("/app/home");
     } catch (error) {
       console.error("Erro ao logar usuário", error);
       toast.error("Erro ao entrar com usuário.");
@@ -96,7 +96,10 @@ export function Login() {
         <div>
           <span className="text-xs">
             Não possui cadastro?
-            <Link className="text-blue-500 hover:text-blue-600" to={"/"}>
+            <Link
+              className="text-blue-500 hover:text-blue-600"
+              to={"/register"}
+            >
               Registre-se
             </Link>
           </span>

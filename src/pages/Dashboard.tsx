@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PageWrapper } from "../components/pageWrapper";
 import { Modal } from "../components/modal";
 import { CreateEquipament } from "../components/forms/createEquipament";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -9,7 +8,7 @@ export function Dashboard() {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   return (
-    <PageWrapper>
+    <div>
       <div className="flex flex-col items-center mt-10">
         <EquipamentCard name="mouse" created_at="29/032026" quantity={10} />
         <button
@@ -56,6 +55,6 @@ export function Dashboard() {
           </div>
         </CreateEquipament>
       </Modal>
-    </PageWrapper>
+    </div>
   );
 }

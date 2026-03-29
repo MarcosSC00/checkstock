@@ -100,7 +100,7 @@ export function Register() {
         <div>
           <span className="text-xs">
             Já possui cadatro?
-            <Link className="text-blue-500 hover:text-blue-600" to={"/login"}>
+            <Link className="text-blue-500 hover:text-blue-600" to={"/"}>
               entrar
             </Link>
           </span>
