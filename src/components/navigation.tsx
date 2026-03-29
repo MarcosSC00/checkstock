@@ -1,51 +1,50 @@
 import { NavLink } from "react-router-dom";
 
 export function Navigation() {
-
   return (
-    <div className="px-6 py-4 w-full bg-white border-b 
-    border-gray-200 hidden md:block">
+    <div
+      className="w-full bg-white border-b 
+    border-gray-200 pt-5"
+    >
       <nav>
-        <ul className="flex items-start flex-col md:items-center 
-        md:flex-row md:w-full text-right gap-8 text-sm 
-        font-semibold text-gray-400">
+        <ul
+          className="flex items-start text-right text-sm 
+        font-semibold text-gray-400"
+        >
           <li>
-            <NavLink 
-              to="/dashboard"
-              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
-              ${
-                isActive
-                  ? "border-b-2 border-gray-600 text-gray-600"
-                  : ""
-              }`}
+            <NavLink
+              to="/"
+              className={({
+                isActive,
+              }) => `cursor-pointer transition-colors hover:text-gray-600
+              rounded-[5px_5px_0px_0px] border-r border-gray-200/60 bg-gray-400/40 px-4
+              ${isActive ? "text-gray-600 bg-white border-x border-t border-gray-100" : ""}`}
             >
-                Início
+              Início
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/equipaments"
-              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
-              ${
-                isActive
-                  ? "border-b-2 border-gray-600 text-gray-600"
-                  : ""
-              }`}
+            <NavLink
+              to=""
+              className={({
+                isActive,
+              }) => `cursor-pointer transition-colors hover:text-gray-600
+              rounded-[5px_5px_0px_0px] border-r border-gray-200/60 bg-gray-400 px-4
+              ${isActive ? "text-gray-600 bg-white border-x border-t border-gray-100" : ""}`}
             >
-                Equipamentos
+              Equipamentos
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/consumptions"
-              className={({isActive}) => `cursor-pointer transition-colors hover:text-gray-600
-              ${
-                  isActive
-                  ? "border-b-2 border-gray-600 text-gray-600"
-                  : ""
-              }`}
+            <NavLink
+              to=""
+              className={({
+                isActive,
+              }) => `cursor-pointer transition-colors hover:text-gray-600
+              rounded-[5px_5px_0px_0px] border-r border-gray-200/60 bg-gray-400 px-4
+              ${isActive ? "text-gray-600 bg-white border-x border-t border-gray-100" : ""}`}
             >
-                Consumo
+              Consumo
             </NavLink>
           </li>
         </ul>

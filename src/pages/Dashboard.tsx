@@ -3,17 +3,30 @@ import { PageWrapper } from "../components/pageWrapper";
 import { Modal } from "../components/modal";
 import { CreateEquipament } from "../components/forms/createEquipament";
 import * as Dialog from "@radix-ui/react-dialog";
+import { EquipamentCard } from "../components/equipamentCard";
 
 export function Dashboard() {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <PageWrapper>
-      <button onClick={() => setOpenModal(true)}>Criar Equipamento</button>
+      <div className="flex flex-col items-center mt-10">
+        <EquipamentCard name="mouse" created_at="29/032026" quantity={10} />
+        <button
+          onClick={() => setOpenModal(true)}
+          className="px-2 py-1 bg-blue-700 rounded-md
+        text-gray-50 font-bold justify-self-auto w-fit
+        mt-5 hover:bg-blue-800 transition-all duration-150
+        text-sm"
+        >
+          Criar Equipamento
+        </button>
+      </div>
       <Modal
         tiltle="Cadastro de Cliente"
         open={openModal}
         setOpen={setOpenModal}
+        trigger={<></>}
       >
         <CreateEquipament
           onLoading={setIsSubmiting}

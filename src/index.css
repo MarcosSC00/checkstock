@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+* {
+  outline: none;
+}
+button:hover {
+  cursor: pointer;
+}
