@@ -1,60 +1,36 @@
-import { useState } from "react";
-import { Modal } from "../components/modal";
-import { CreateEquipament } from "../components/forms/createEquipament";
-import * as Dialog from "@radix-ui/react-dialog";
-import { EquipamentCard } from "../components/equipamentCard";
+import { Box, TabletSmartphone } from "lucide-react";
+import { Card } from "../components/card";
 
 export function Dashboard() {
-  const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
   return (
-    <div>
-      <div className="flex flex-col items-center mt-10">
-        <EquipamentCard name="mouse" created_at="29/032026" quantity={10} />
-        <button
-          onClick={() => setOpenModal(true)}
-          className="px-2 py-1 bg-blue-700 rounded-md
-        text-gray-50 font-bold justify-self-auto w-fit
-        mt-5 hover:bg-blue-800 transition-all duration-150
-        text-sm"
-        >
-          Criar Equipamento
-        </button>
-      </div>
-      <Modal
-        tiltle="Cadastro de Cliente"
-        open={openModal}
-        setOpen={setOpenModal}
-        trigger={<></>}
+    <div className="mt-10">
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 
+      lg:grid-cols-[auto_auto_auto_auto] gap-6"
       >
-        <CreateEquipament
-          onLoading={setIsSubmiting}
-          openModal={() => setOpenModal(false)}
-        >
-          <div className="flex justify-end gap-2 mt-5">
-            <Dialog.Close
-              className="p-1 border border-gray-300 rounded-md text-[#031D3B] font-semibold
-               hover:bg-gray-200 transition-colors duration-150
-               hover:cursor-pointer text-sm"
-            >
-              CANCELAR
-            </Dialog.Close>
-            <button
-              type="submit"
-              disabled={isSubmiting}
-              className={`p-1 ${
-                isSubmiting
-                  ? "bg-[#85a0bf] hover:cursor-none border-[#85a0bf]"
-                  : "bg-[#031D3B]  hover:bg-[#020F1F]"
-              } border border-[#031D3B] rounded-md text-gray-50 font-semibold
-              transition-colors duration-150
-               hover:cursor-pointer text-sm`}
-            >
-              {isSubmiting ? "SALVANDO..." : "SALVAR"}
-            </button>
+        <Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-green-300 text-sm font-medium">
+                Total de Equipamentos
+              </p>
+              <p className="text-2xl font-bold text-green-500">50</p>
+            </div>
+            <Box className="w-6 h-6 text-green-300" />
           </div>
-        </CreateEquipament>
-      </Modal>
+        </Card>
+        <Card>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-yellow-300 text-sm font-medium">
+                Baixo Estoque
+              </p>
+              <p className="text-2xl font-bold text-yellow-500">50</p>
+            </div>
+            <TabletSmartphone className="w-6 h-6 text-yellow-300" />
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

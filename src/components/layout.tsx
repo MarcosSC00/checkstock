@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { Navigation } from "./navigation";
+import { Footer } from "./footer";
 
 export function Layout() {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col justify-between">
       <header>
         <div className="flex items-center justify-between p-5">
           <div className="text-left gap-2">
-            <h2 className="font-bold text-blue-900">CheckStock</h2>
+            <h2 className="font-bold text-blue-900 text-xl">CheckStock</h2>
             <h4 className="text-sm text-gray-500">Santa Luzia - MA</h4>
           </div>
           <div className="text-right">
@@ -24,11 +25,12 @@ export function Layout() {
         <Navigation />
       </header>
 
-      <main>
-        <div className="px-2">
+      <main className="flex-1 max-w-360 w-full">
+        <div className="px-4 mb-10">
           <Outlet />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
