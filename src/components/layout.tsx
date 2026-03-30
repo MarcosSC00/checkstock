@@ -4,7 +4,7 @@ import { Footer } from "./footer";
 
 export function Layout() {
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="max-w-360 w-full min-h-screen flex flex-col justify-between mx-auto">
       <header>
         <div className="flex items-center justify-between p-5">
           <div className="text-left gap-2">
@@ -25,8 +25,8 @@ export function Layout() {
         <Navigation />
       </header>
 
-      <main className="flex-1 max-w-360 w-full">
-        <div className="px-4 mb-10">
+      <main className="flex-1">
+        <div className="px-4 mb-10 mx-auto">
           <Outlet />
         </div>
       </main>

@@ -3,14 +3,14 @@ import { PhoneIcon } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-360 mx-auto px-6 py-6">
+      <div className="px-6 py-6">
         <div
           className="flex flex-col md:flex-row items-start 
         md:items-center md:justify-between gap-4"
         >
-          <div className="w-full flex justify-between">
+          <div className="w-full flex justify-between items-center mb-4">
             <h3
-              className="text-slate-800 font-medium mb-4 
+              className="text-slate-800 font-medium 
             text-sm md:text-md"
             >
               Desenvolvido por{" "}
