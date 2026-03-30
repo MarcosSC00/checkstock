@@ -62,7 +62,7 @@ export function Register() {
               {...register("email", {
                 required: "Informe um email válido.",
               })}
-              className="border border-gray-400 rounded-sm px-1 py-1 text-sm"
+              className="text-gray-500 border border-gray-300 rounded-sm px-1 py-1 text-sm"
             />
             {errors.email && <span>{errors.email.message}</span>}
           </div>
@@ -83,7 +83,7 @@ export function Register() {
                 required: "Senha obrigatória.",
                 minLength: 6,
               })}
-              className="border border-gray-400 rounded-sm px-1 py-1 text-sm"
+              className="text-gray-500 border border-gray-300 rounded-sm px-1 py-1 text-sm"
             />
             {errors.password && <span>{errors.password.message}</span>}
           </div>

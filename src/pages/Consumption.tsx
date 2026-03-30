@@ -1,5 +1,6 @@
 import { CalendarDaysIcon, MonitorSmartphone, Search } from "lucide-react";
 import { Card } from "../components/card";
+import { ProgressBar } from "../components/progressBar";
 
 export function Consumption() {
   return (
@@ -21,15 +22,16 @@ export function Consumption() {
       >
         <Card>
           <div className="w-full flex items-center justify-between">
-            <div className="w-full">
-              <div className="flex justify-between items-center">
-                <p className="text-gray-700 text-md font-bold mb-2">Nome</p>
-                <MonitorSmartphone
-                  width={30}
-                  height={30}
-                  className="p-1 bg-blue-600 text-gray-50 rounded-full"
-                />
-              </div>
+            <div className="w-full flex justify-between items-center">
+              <p className="text-gray-700 text-md font-bold mb-2">Nome</p>
+              <MonitorSmartphone
+                width={30}
+                height={30}
+                className="p-1 bg-blue-600 text-gray-50 rounded-full"
+              />
+            </div>
+            <div>
+              <ProgressBar total={100} consumed={20} />
             </div>
           </div>
           <div className="w-full flex justify-end">

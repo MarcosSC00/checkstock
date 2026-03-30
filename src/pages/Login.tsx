@@ -59,7 +59,7 @@ export function Login() {
               type="email"
               placeholder="Email"
               {...register("email")}
-              className="border border-gray-400 rounded-sm px-1 py-1 text-sm
+              className="border border-gray-300 rounded-sm px-1 py-1 text-sm
               text-gray-500"
             />
             {errors.email && <span>{errors.email.message}</span>}
@@ -78,7 +78,7 @@ export function Login() {
               type="password"
               placeholder="Senha"
               {...register("password")}
-              className="border border-gray-400 rounded-sm px-1 py-1 text-sm
+              className="border border-gray-300 rounded-sm px-1 py-1 text-sm
               text-gray-700"
             />
             {errors.password && <span>{errors.password.message}</span>}
