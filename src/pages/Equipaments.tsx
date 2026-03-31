@@ -1,18 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EquipamentCard } from "../components/equipamentCard";
 import { CreateEquipament } from "../components/forms/createEquipament";
 import { Modal } from "../components/modal";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import { getEquipaments } from "../services/equipaments";
+import { data } from "react-router-dom";
+import { toast } from "sonner";
+import type { EquipamentType } from "../types/equipamentType";
+import { Loading } from "../components/loading";
 
 export function Equipaments() {
+  const [loading, setLoading] = useState<boolean>(false);
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [equipaments, setEquipaments] = useState<EquipamentType[] | null>([]);
+
+  const loadEquipaments = async () => {
+    try {
+      setLoading(true);
+      const result = await getEquipaments();
+      setEquipaments(result);
+      toast.success("Equipamentos carregados com sucesso!", {
+        id: "loadSuccessEquipaments",
+      });
+    } catch (error) {
+      toast.error("Erro ao carregar equipamentos", {
+        id: "loadErrorEquipaments",
+      });
+      console.error("Erro ao carregar equipamentos", data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadEquipaments();
+  }, []);
 
   return (
     <div>
       <div className="flex flex-col items-center mt-10 w-full">
-        <div className="w-full mb-8">
+        <div className="w-full flex flex-row-reverse md:flex-row mb-8 items-center justify-between">
+          <button
+            onClick={() => setOpenModal(true)}
+            className="flex items-center px-4 bg-blue-700 rounded-md
+                text-gray-50 font-bold justify-self-auto w-fit
+               hover:bg-blue-800 transition-all duration-150
+                text-sm shadow-md gap-2"
+          >
+            <span className="hidden md:block">Cadastrar Equipamento</span>
+            <Plus />
+          </button>
           <div
             className="flex items-center border border-gray-200
             rounded-md w-fit justify-self-end"
@@ -25,21 +64,29 @@ export function Equipaments() {
             <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
           </div>
         </div>
-        <div
-          className="p-1 w-full border border-gray-200 rounded-md
+        {loading ? (
+          <div className="w-full flex justify-center">
+            <Loading />
+          </div>
+        ) : (
+          <div
+            className="p-1 w-full border border-gray-200 rounded-md
           shadow-md max-h-87.5 overflow-auto"
-        >
-          <EquipamentCard name="mouse" created_at="29/032026" quantity={10} />
-        </div>
-        <button
-          onClick={() => setOpenModal(true)}
-          className="px-2 py-1 bg-blue-700 rounded-md
-                text-gray-50 font-bold justify-self-auto w-fit
-                mt-5 hover:bg-blue-800 transition-all duration-150
-                text-sm shadow-md"
-        >
-          Cadastrar Equipamento
-        </button>
+          >
+            {equipaments && equipaments.length >= 1 ? (
+              equipaments.map((e) => (
+                <EquipamentCard
+                  name={e.name}
+                  created_at={e.created_at}
+                  quantity={e.quantity}
+                  key={e.id}
+                />
+              ))
+            ) : (
+              <p>Nenhum equipamento cadastrado.</p>
+            )}
+          </div>
+        )}
       </div>
       <Modal
         tiltle="Cadastro de Equipamento"
@@ -50,6 +97,7 @@ export function Equipaments() {
         <CreateEquipament
           onLoading={setIsSubmiting}
           openModal={() => setOpenModal(false)}
+          onSuccess={loadEquipaments}
         >
           <div className="flex justify-end gap-2 mt-5">
             <Dialog.Close

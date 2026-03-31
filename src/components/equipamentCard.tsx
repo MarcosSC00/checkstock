@@ -2,7 +2,9 @@ import { MonitorSmartphone, PenBox } from "lucide-react";
 import type { EquipamentType } from "../types/equipamentType";
 import { Link } from "react-router-dom";
 
-export function EquipamentCard({ name, quantity }: EquipamentType) {
+interface EquipamentCardProps extends EquipamentType {}
+
+export function EquipamentCard({ name, quantity }: EquipamentCardProps) {
   return (
     <div
       className="flex items-center justify-between p-2 border-b

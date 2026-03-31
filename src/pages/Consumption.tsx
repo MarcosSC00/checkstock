@@ -1,47 +1,127 @@
-import { MonitorSmartphone, Search } from "lucide-react";
-import { Card } from "../components/card";
-import { ProgressBar } from "../components/progressBar";
+import { Plus, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Modal } from "../components/modal";
+import * as Dialog from "@radix-ui/react-dialog";
+import { CreateConsumption } from "../components/forms/createConsumption";
+import { getConsumptions } from "../services/consumptions";
+import { toast } from "sonner";
+import { ConsumptionCard } from "../components/consumptionCard";
+import { Loading } from "../components/loading";
 
 export function Consumption() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [consumptions, setConsumptions] = useState<any[] | null>([]);
+  const loadConsumptions = async () => {
+    try {
+      setLoading(true);
+      const result = await getConsumptions();
+      setConsumptions(result);
+      setLoading(true);
+      toast.success("Dados carregados com sucesso.", {
+        id: "successConsumptionLoad",
+      });
+    } catch (error) {
+      console.error("Erro ao carregar consumos", error);
+      toast.error("Erro ao executar tarefa", {
+        id: "errorConsumptionLoad",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadConsumptions();
+  }, []);
   return (
     <div className="w-full">
       <div
-        className="flex items-center border border-gray-200
-        rounded-md w-fit justify-self-end mt-10"
+        className="w-full flex flex-row-reverse items-center 
+        justify-between mt-10 text-sm md:flex-row"
       >
-        <input
-          type="text"
-          placeholder="pesquisar..."
-          className="pl-1 text-sm text-gray-600"
-        />
-        <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
+        <button
+          onClick={() => setOpenModal(true)}
+          className="flex gap-2 items-center px-4 rounded-sm bg-blue-700
+        text-gray-50 font-bold hover:bg-blue-800 transition-all duration-150"
+        >
+          <span className="hidden md:block">Novo Consumo</span>
+          <Plus />
+        </button>
+        <div
+          className="flex items-center border border-gray-200
+        rounded-md w-fit justify-self-end"
+        >
+          <input
+            type="text"
+            placeholder="pesquisar..."
+            className="pl-1 text-sm text-gray-600"
+          />
+          <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
+        </div>
       </div>
-      <div
-        className="grid grid-cols-1 md:grid-cols-3 
+      {loading ? (
+        <div className="w-full flex justify-center mt-10">
+          <Loading />
+        </div>
+      ) : consumptions && consumptions.length > 0 ? (
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 
       lg:grid-cols-[auto_auto_auto_auto] gap-6 mt-10"
-      >
-        <Card>
-          <div className="w-full flex justify-between items-center">
-            <p className="text-gray-700 text-md font-bold mb-2">Nome</p>
-            <MonitorSmartphone
-              width={30}
-              height={30}
-              className="p-1 bg-blue-600 text-gray-50 rounded-full"
+        >
+          {consumptions.map((c, index) => (
+            <ConsumptionCard
+              key={index}
+              name={c.name}
+              totalQtd={c.total_qtd}
+              usedQtd={c.used_qtd}
             />
-          </div>
-          <div className="w-full mt-5">
-            <ProgressBar total={100} consumed={20} />
-          </div>
-          <div className="w-full flex justify-end">
-            <button
-              className="text-xs uppercase font-semibold px-2 py-1
-          bg-blue-700 rounded-sm text-gray-50 mt-5 hover:bg-blue-800"
+          ))}
+        </div>
+      ) : (
+        <span
+          className="w-full flex justify-center mt-10
+        text-gray-600 font-bold"
+        >
+          Nenhum consumo encontrado.
+        </span>
+      )}
+      <Modal
+        tiltle="Cadastro de consumo"
+        open={openModal}
+        setOpen={setOpenModal}
+        trigger={<></>}
+      >
+        <CreateConsumption
+          onLoading={setIsSubmiting}
+          openModal={() => setOpenModal(false)}
+          onSuccess={loadConsumptions}
+        >
+          <div className="flex justify-end gap-2 mt-5">
+            <Dialog.Close
+              className="p-1 border border-gray-300 rounded-md text-[#031D3B] font-semibold
+                             hover:bg-gray-200 transition-colors duration-150
+                             hover:cursor-pointer text-sm"
             >
-              atualizar uso
+              CANCELAR
+            </Dialog.Close>
+            <button
+              type="submit"
+              disabled={isSubmiting}
+              className={`p-1 ${
+                isSubmiting
+                  ? "bg-[#85a0bf] hover:cursor-none border-[#85a0bf]"
+                  : "bg-[#031D3B]  hover:bg-[#020F1F]"
+              } border border-[#031D3B] rounded-md text-gray-50 font-semibold
+                            transition-colors duration-150
+                             hover:cursor-pointer text-sm`}
+            >
+              {isSubmiting ? "SALVANDO..." : "SALVAR"}
             </button>
           </div>
-        </Card>
-      </div>
+        </CreateConsumption>
+      </Modal>
     </div>
   );
 }
