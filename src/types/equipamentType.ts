@@ -1,6 +1,6 @@
 export interface EquipamentType {
-    id?: number;
-    name: string;
-    quantity: number;
-    created_at?: string;
+  id?: string;
+  name: string;
+  quantity: number;
+  created_at?: string;
 }

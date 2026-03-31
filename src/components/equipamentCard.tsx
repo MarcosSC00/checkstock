@@ -1,10 +1,15 @@
 import { MonitorSmartphone, PenBox } from "lucide-react";
 import type { EquipamentType } from "../types/equipamentType";
-import { Link } from "react-router-dom";
 
-interface EquipamentCardProps extends EquipamentType {}
+interface EquipamentCardProps extends EquipamentType {
+  openEditModal?: () => void;
+}
 
-export function EquipamentCard({ name, quantity }: EquipamentCardProps) {
+export function EquipamentCard({
+  name,
+  quantity,
+  openEditModal,
+}: EquipamentCardProps) {
   return (
     <div
       className="flex items-center justify-between p-2 border-b
@@ -18,9 +23,9 @@ export function EquipamentCard({ name, quantity }: EquipamentCardProps) {
       </div>
       <div className="flex items-center gap-2">
         <span className="font-black text-gray-700">{quantity}</span>
-        <Link to={""}>
+        <button onClick={openEditModal}>
           <PenBox size={20} />
-        </Link>
+        </button>
       </div>
     </div>
   );

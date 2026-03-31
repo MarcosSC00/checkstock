@@ -12,9 +12,12 @@ import { Loading } from "../components/loading";
 
 export function Equipaments() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedEquipament, setSelectedEquipament] =
+    useState<EquipamentType>();
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [equipaments, setEquipaments] = useState<EquipamentType[] | null>([]);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const loadEquipaments = async () => {
     try {
@@ -34,6 +37,12 @@ export function Equipaments() {
     }
   };
 
+  const handleEdit = (equipament: EquipamentType) => {
+    setIsEditOpen(true);
+    setSelectedEquipament(equipament);
+    setOpenModal(false);
+  };
+
   useEffect(() => {
     loadEquipaments();
   }, []);
@@ -43,7 +52,9 @@ export function Equipaments() {
       <div className="flex flex-col items-center mt-10 w-full">
         <div className="w-full flex flex-row-reverse md:flex-row mb-8 items-center justify-between">
           <button
-            onClick={() => setOpenModal(true)}
+            onClick={() => {
+              (setOpenModal(true), setIsEditOpen(false));
+            }}
             className="flex items-center px-4 bg-blue-700 rounded-md
                 text-gray-50 font-bold justify-self-auto w-fit
                hover:bg-blue-800 transition-all duration-150
@@ -80,6 +91,7 @@ export function Equipaments() {
                   created_at={e.created_at}
                   quantity={e.quantity}
                   key={e.id}
+                  openEditModal={() => handleEdit(e)}
                 />
               ))
             ) : (
@@ -88,6 +100,7 @@ export function Equipaments() {
           </div>
         )}
       </div>
+      {/*Modal Create */}
       <Modal
         tiltle="Cadastro de Equipamento"
         open={openModal}
@@ -97,6 +110,45 @@ export function Equipaments() {
         <CreateEquipament
           onLoading={setIsSubmiting}
           openModal={() => setOpenModal(false)}
+          onSuccess={loadEquipaments}
+        >
+          <div className="flex justify-end gap-2 mt-5">
+            <Dialog.Close
+              className="p-1 border border-gray-300 rounded-md text-[#031D3B] font-semibold
+                       hover:bg-gray-200 transition-colors duration-150
+                       hover:cursor-pointer text-sm"
+            >
+              CANCELAR
+            </Dialog.Close>
+            <button
+              type="submit"
+              disabled={isSubmiting}
+              className={`p-1 ${
+                isSubmiting
+                  ? "bg-[#85a0bf] hover:cursor-none border-[#85a0bf]"
+                  : "bg-[#031D3B]  hover:bg-[#020F1F]"
+              } border border-[#031D3B] rounded-md text-gray-50 font-semibold
+                      transition-colors duration-150
+                       hover:cursor-pointer text-sm`}
+            >
+              {isSubmiting ? "SALVANDO..." : "SALVAR"}
+            </button>
+          </div>
+        </CreateEquipament>
+      </Modal>
+
+      {/* Modal Update */}
+      <Modal
+        tiltle="Atualização de Equipamento"
+        open={isEditOpen}
+        setOpen={setIsEditOpen}
+        trigger={<></>}
+      >
+        <CreateEquipament
+          isUpdate={true}
+          loadedData={selectedEquipament}
+          onLoading={setIsSubmiting}
+          openModal={() => setIsEditOpen(false)}
           onSuccess={loadEquipaments}
         >
           <div className="flex justify-end gap-2 mt-5">

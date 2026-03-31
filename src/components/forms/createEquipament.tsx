@@ -1,6 +1,11 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { createEquipament } from "../../services/equipaments";
+import {
+  createEquipament,
+  incrementEquipament,
+} from "../../services/equipaments";
 import { toast } from "sonner";
+import type { EquipamentType } from "../../types/equipamentType";
+import { useEffect } from "react";
 
 interface EquipamentInputs {
   name: string;
@@ -11,6 +16,8 @@ interface CreateEquipamentProps {
   openModal?: () => void;
   onSuccess?: () => Promise<void>;
   onLoading?: (loading: boolean) => void;
+  isUpdate?: boolean;
+  loadedData?: EquipamentType;
   children: any;
 }
 
@@ -19,11 +26,14 @@ export function CreateEquipament({
   onSuccess,
   openModal,
   onLoading,
+  isUpdate,
+  loadedData,
 }: CreateEquipamentProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<EquipamentInputs>();
 
   const onSubmit: SubmitHandler<EquipamentInputs> = async ({
@@ -32,19 +42,35 @@ export function CreateEquipament({
   }: EquipamentInputs) => {
     try {
       onLoading?.(true);
-      await createEquipament({ name, quantity });
-      toast.success("Equipamento criado com sucesso!", {
-        id: "create-success-equipament",
-      });
+      if (isUpdate && loadedData) {
+        await incrementEquipament(loadedData.id ?? "", quantity);
+        toast.success("Equipamento atualizado com sucesso!", {
+          id: "update-success-equipament",
+        });
+      } else {
+        await createEquipament({ name, quantity });
+        toast.success("Equipamento criado com sucesso!", {
+          id: "create-success-equipament",
+        });
+      }
+
       onSuccess?.();
     } catch (error) {
       toast.error("Erro ao criar quipamento.");
       console.log("Erro ao criar qeuipamento", error);
     } finally {
       openModal?.();
-      onLoading?.(true);
+      onLoading?.(false);
+      reset();
     }
   };
+
+  useEffect(() => {
+    reset({
+      name: loadedData?.name,
+      quantity: loadedData?.quantity,
+    });
+  }, [loadedData, reset]);
   return (
     <div>
       <form
@@ -57,7 +83,8 @@ export function CreateEquipament({
         <input
           type="text"
           id="name"
-          className="outline-none border border-gray-200 rounded-sm p-2 text-sm"
+          className={`${isUpdate && "bg-gray-200"} outline-none border border-gray-200 rounded-sm p-2 text-sm`}
+          readOnly={isUpdate}
           {...register("name", {
             required: "Informe o nome",
           })}
@@ -65,8 +92,22 @@ export function CreateEquipament({
         {errors.name && (
           <span className="text-xs text-red-500">{errors.name.message}</span>
         )}
+        {isUpdate && (
+          <div className="w-full flex gap-2 items-baseline">
+            <label htmlFor="phone" className="font-semibold text-sm mt-4">
+              Quantidade Atual:
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              className="bg-gray-200 outline-none border border-gray-200 rounded-sm p-2 text-sm"
+              readOnly={true}
+              value={loadedData?.quantity}
+            />
+          </div>
+        )}
         <label htmlFor="phone" className="font-semibold text-sm mt-4">
-          Qunatidade:
+          {isUpdate ? "Adicionar:" : "Quantidade:"}
         </label>
         <input
           type="number"
@@ -75,6 +116,7 @@ export function CreateEquipament({
           className="outline-none border border-gray-200 rounded-sm p-2 text-sm"
           {...register("quantity", {
             required: "Informe a quantidade",
+            valueAsNumber: true,
           })}
         />
         {errors.quantity && (
