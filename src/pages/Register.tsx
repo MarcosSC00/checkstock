@@ -21,7 +21,7 @@ export function Register() {
       setLoading(true);
       await registerUser(data.email, data.password);
       toast.success("Usuário cadastrado com sucesso!");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao cadastrar usuário", error);
       toast.error("Erro ao cdastrar usuário.");

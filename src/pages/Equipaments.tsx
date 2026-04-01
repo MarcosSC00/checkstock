@@ -9,7 +9,6 @@ import { data } from "react-router-dom";
 import { toast } from "sonner";
 import type { EquipamentType } from "../types/equipamentType";
 import { Loading } from "../components/loading";
-import { dateFormater } from "../utils/dateFormater";
 
 export function Equipaments() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,27 +80,14 @@ export function Equipaments() {
           <div className="w-full flex justify-center">
             <Loading />
           </div>
-        ) : (
-          <div
-            className="p-1 w-full border border-gray-200 rounded-md
-          shadow-md max-h-87.5 overflow-auto"
-          >
-            {equipaments && equipaments.length >= 1 ? (
-              equipaments.map((e) => (
-                <EquipamentCard
-                  name={e.name}
-                  created_at={e.created_at}
-                  quantity={e.quantity}
-                  updated_at={e.updated_at && dateFormater(e.updated_at)}
-                  userEmail={e.userId ?? ""}
-                  key={e.id}
-                  openEditModal={() => handleEdit(e)}
-                />
-              ))
-            ) : (
-              <p>Nenhum equipamento cadastrado.</p>
-            )}
+        ) : equipaments && equipaments.length >= 1 ? (
+          <div className="p-1 w-full max-h-87.5 overflow-auto">
+            <EquipamentCard data={equipaments} openEditModal={handleEdit} />
           </div>
+        ) : (
+          <p className="mt-2 text-gray-700 font-bold">
+            Nenhum equipamento cadastrado.
+          </p>
         )}
       </div>
       {/*Modal Create */}

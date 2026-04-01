@@ -11,12 +11,20 @@ export async function login(email: string, password: string) {
 }
 
 export async function registerUser(email: string, password: string) {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
 
   if (error) throw error;
+  const user = data.user;
+
+  if (user) {
+    await supabase.from("users").insert({
+      id: user.id,
+      email: user.email,
+    });
+  }
 }
 
 export async function getUser() {

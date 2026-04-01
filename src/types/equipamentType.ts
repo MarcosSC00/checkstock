@@ -5,4 +5,5 @@ export interface EquipamentType {
   created_at?: string;
   updated_at?: string;
   userId?: string;
+  users?: any;
 }

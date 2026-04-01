@@ -12,7 +12,8 @@ export async function createEquipament(user: any, data: EquipamentType) {
 }
 
 export async function getEquipaments() {
-  const { data } = await supabase.from("equipaments").select();
+  const { data } = await supabase.from("equipaments").select(`*,
+    users (email)`);
   return data;
 }
 
