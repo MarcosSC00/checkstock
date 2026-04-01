@@ -9,6 +9,7 @@ import { data } from "react-router-dom";
 import { toast } from "sonner";
 import type { EquipamentType } from "../types/equipamentType";
 import { Loading } from "../components/loading";
+import { dateFormater } from "../utils/dateFormater";
 
 export function Equipaments() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,6 +48,7 @@ export function Equipaments() {
     loadEquipaments();
   }, []);
 
+  console.log(equipaments);
   return (
     <div>
       <div className="flex flex-col items-center mt-10 w-full">
@@ -90,6 +92,8 @@ export function Equipaments() {
                   name={e.name}
                   created_at={e.created_at}
                   quantity={e.quantity}
+                  updated_at={e.updated_at && dateFormater(e.updated_at)}
+                  userEmail={e.userId ?? ""}
                   key={e.id}
                   openEditModal={() => handleEdit(e)}
                 />

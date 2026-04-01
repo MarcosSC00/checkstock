@@ -16,7 +16,9 @@ export function ConsumptionCard({
     <div>
       <Card>
         <div className="w-full flex justify-between items-center">
-          <p className="text-gray-700 text-md font-bold mb-2">{name}</p>
+          <p className="text-gray-700 text-md font-bold mb-2 capitalize">
+            {name}
+          </p>
           <MonitorSmartphone
             width={30}
             height={30}

@@ -1,10 +1,11 @@
 import type { EquipamentType } from "../types/equipamentType";
 import { supabase } from "./supabase";
 
-export async function createEquipament(data: EquipamentType) {
+export async function createEquipament(user: any, data: EquipamentType) {
   const { error } = await supabase.from("equipaments").insert({
     name: data.name,
     quantity: data.quantity,
+    user_id: user.id,
   });
 
   if (error) throw error;
@@ -37,7 +38,6 @@ export async function getEquipamentsNames() {
 }
 
 export async function incrementEquipament(id: string, increment: number) {
-  // 1. pegar dados atuais
   const { data: equip } = await supabase
     .from("equipaments")
     .select("quantity")
@@ -54,12 +54,10 @@ export async function incrementEquipament(id: string, increment: number) {
 
   const newQuantity = equip?.quantity + increment;
 
-  // 🚨 validação
   if (newQuantity < totalConsumed) {
     throw new Error("Estoque não pode ser menor que o já consumido");
   }
 
-  // 2. atualizar
   const { error } = await supabase
     .from("equipaments")
     .update({

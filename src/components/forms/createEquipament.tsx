@@ -6,6 +6,7 @@ import {
 import { toast } from "sonner";
 import type { EquipamentType } from "../../types/equipamentType";
 import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface EquipamentInputs {
   name: string;
@@ -29,6 +30,7 @@ export function CreateEquipament({
   isUpdate,
   loadedData,
 }: CreateEquipamentProps) {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -48,7 +50,7 @@ export function CreateEquipament({
           id: "update-success-equipament",
         });
       } else {
-        await createEquipament({ name, quantity });
+        await createEquipament(user, { name, quantity });
         toast.success("Equipamento criado com sucesso!", {
           id: "create-success-equipament",
         });
