@@ -6,11 +6,15 @@ interface ConsumptionCardProps {
   name: string;
   totalQtd: number;
   usedQtd: number;
+  openModal: () => void;
+  onSelectEquipament: () => void;
 }
 export function ConsumptionCard({
   name,
   totalQtd,
   usedQtd,
+  openModal,
+  onSelectEquipament,
 }: ConsumptionCardProps) {
   return (
     <div>
@@ -32,6 +36,10 @@ export function ConsumptionCard({
           <button
             className="text-xs uppercase font-semibold px-2 py-1
           bg-blue-700 rounded-sm text-gray-50 mt-5 hover:bg-blue-800"
+            onClick={() => {
+              openModal?.();
+              onSelectEquipament?.();
+            }}
           >
             atualizar uso
           </button>

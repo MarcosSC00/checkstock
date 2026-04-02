@@ -17,7 +17,16 @@ export async function getConsumptionByEquipament(equipamentName: string) {
   return data;
 }
 
-export async function getConsumptions() {
-  const { data } = await supabase.from("consumptions_summary").select("*");
+export async function getConsumptions(month: number, year: number) {
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 1);
+  const { data, error } = await supabase
+    .from("consumptions_summary")
+    .select("*")
+    .gte("consumed_at", startDate.toISOString())
+    .lt("consumed_at", endDate.toISOString());
+
+  if (error) throw error;
+
   return data;
 }

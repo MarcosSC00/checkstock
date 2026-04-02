@@ -45,19 +45,7 @@ export async function incrementEquipament(id: string, increment: number) {
     .eq("id", id)
     .single();
 
-  const { data: consumptions } = await supabase
-    .from("consumptions")
-    .select("quantity")
-    .eq("equipament_id", id);
-
-  const totalConsumed =
-    consumptions?.reduce((acc, c) => acc + c.quantity, 0) ?? 0;
-
   const newQuantity = equip?.quantity + increment;
-
-  if (newQuantity < totalConsumed) {
-    throw new Error("Estoque não pode ser menor que o já consumido");
-  }
 
   const { error } = await supabase
     .from("equipaments")
@@ -68,4 +56,21 @@ export async function incrementEquipament(id: string, increment: number) {
     .eq("id", id);
 
   if (error) throw error;
+}
+
+export async function deleteEquipamentById(id: string) {
+  const { error } = await supabase.from("equipaments").delete().eq("id", id);
+
+  if (error) throw error;
+}
+
+export async function getEquipamentIdByName(name: string) {
+  const { data, error } = await supabase
+    .from("equipaments")
+    .select("id")
+    .eq("name", name)
+    .limit(1);
+  if (error) throw error;
+
+  return data[0].id;
 }

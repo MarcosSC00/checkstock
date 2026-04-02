@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import type { ConsumptionType } from "../../types/consumptionType";
 import { useAuth } from "../../contexts/AuthContext";
-import { useEffect, useState } from "react";
-import { getEquipamentsNames } from "../../services/equipaments";
-import { Loading } from "../loading";
 import { consumeEquipament } from "../../services/consumptions";
 import { toast } from "sonner";
 
@@ -11,6 +8,7 @@ interface ConsumptionProps {
   openModal?: () => void;
   onSuccess?: () => Promise<void>;
   onLoading?: (loading: boolean) => void;
+  equipament?: any;
   children: any;
 }
 
@@ -19,27 +17,14 @@ export function CreateConsumption({
   openModal,
   onSuccess,
   onLoading,
+  equipament,
 }: ConsumptionProps) {
   const { user } = useAuth();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [equipamentsNames, setEquipamentsNames] = useState<any[] | null>([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ConsumptionType>();
-
-  const loadEquipamentsName = async () => {
-    try {
-      setLoading(true);
-      const result = await getEquipamentsNames();
-      setEquipamentsNames(result);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const onSubmit = async (data: ConsumptionType) => {
     try {
@@ -49,9 +34,9 @@ export function CreateConsumption({
       toast.success("Consumo criado com sucesso.", {
         id: "successCreateConsumption",
       });
-    } catch (error) {
-      console.error("Erro ao criar comsumo", error);
-      toast.error("Erro ao executar tarefa.", {
+    } catch (error: any) {
+      console.error("Erro ao executar tarefa", error);
+      toast.error(error.message, {
         id: "errorCreateConsumption",
       });
     } finally {
@@ -59,49 +44,38 @@ export function CreateConsumption({
       onLoading?.(false);
     }
   };
-  useEffect(() => {
-    loadEquipamentsName();
-  }, []);
+  console.log(equipament);
+
   return (
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full overflow-y-auto"
       >
-        {loading ? (
-          <Loading />
-        ) : (
-          <div className="flex flex-col">
-            <label htmlFor="equipament" className="font-semibold text-sm">
-              Equipamento:
-            </label>
-            {equipamentsNames && equipamentsNames?.length > 0 ? (
-              <select
-                id="equipament"
-                {...register("equipamentId", {
-                  required: "informe o equipamento.",
-                })}
-                className="w-fit pr-2 py-1 border border-gray-200 rounded-sm
-                text-sm text-gray-600"
-              >
-                <option value="">Selecione um equipamento</option>
-                {equipamentsNames.map((e) => (
-                  <option value={e.id} key={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <span className="text-xs text-red-500">
-                Nenhum equipamento cadastrado.
-              </span>
-            )}
-            {errors.equipamentId && (
-              <span className="text-xs text-red-500">
-                {errors.equipamentId.message}
-              </span>
-            )}
-          </div>
+        <div className="flex flex-col">
+          <label htmlFor="equipament" className="font-semibold text-sm">
+            Equipamento:
+          </label>
+          <input
+            id="equipament"
+            type="text"
+            readOnly
+            value={equipament?.name || ""}
+            className="pl-2 py-1 rounded-sm bg-gray-200 text-sm
+          text-gray-700"
+          />
+
+          <input
+            id="equipament"
+            type="hidden"
+            value={equipament?.id || ""}
+            {...register("equipamentId")}
+          />
+        </div>
+        {errors.equipamentId && (
+          <span className="text-xs text-red-500">
+            {errors.equipamentId.message}
+          </span>
         )}
         <label htmlFor="quantity" className="font-semibold text-sm mt-4">
           Qunatidade:

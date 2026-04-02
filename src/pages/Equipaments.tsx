@@ -47,7 +47,6 @@ export function Equipaments() {
     loadEquipaments();
   }, []);
 
-  console.log(equipaments);
   return (
     <div>
       <div className="flex flex-col items-center mt-10 w-full">
@@ -82,7 +81,11 @@ export function Equipaments() {
           </div>
         ) : equipaments && equipaments.length >= 1 ? (
           <div className="p-1 w-full max-h-87.5 overflow-auto">
-            <EquipamentCard data={equipaments} openEditModal={handleEdit} />
+            <EquipamentCard
+              data={equipaments}
+              openEditModal={handleEdit}
+              onSuccess={loadEquipaments}
+            />
           </div>
         ) : (
           <p className="mt-2 text-gray-700 font-bold">
