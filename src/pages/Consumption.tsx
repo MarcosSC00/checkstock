@@ -1,4 +1,4 @@
-import { Calendar, Search } from "lucide-react";
+import { Calendar, Plus, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Modal } from "../components/modal";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -16,6 +16,7 @@ export function Consumption() {
     name: string;
   } | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [consumptions, setConsumptions] = useState<any[] | null>([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
 
@@ -52,7 +53,7 @@ export function Consumption() {
   return (
     <div className="w-full">
       <div
-        className="w-full flex flex-row-reverse items-center 
+        className="w-full flex flex-col items-start gap-4 
         justify-between mt-10 text-sm md:flex-row"
       >
         <div
@@ -79,16 +80,32 @@ export function Consumption() {
             <option value={12}>Dezembro</option>
           </select>
         </div>
-        <div
-          className="flex items-center border border-gray-200
+        <div className="flex items-center gap-2">
+          <div
+            className="flex items-center border border-gray-200
         rounded-md w-fit justify-self-end"
-        >
-          <input
-            type="text"
-            placeholder="pesquisar..."
-            className="pl-1 text-sm text-gray-600"
-          />
-          <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
+          >
+            <input
+              type="text"
+              placeholder="pesquisar..."
+              className="pl-1 text-sm text-gray-600"
+            />
+            <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
+          </div>
+          <div>
+            <button
+              className="flex items-center px-2 py-1 rounded-sm
+          bg-blue-700 text-gray-50 hover:bg-blue-800 transition-all
+          duration-150"
+              onClick={() => {
+                setOpenModal(true);
+                setOpenEditModal(false);
+              }}
+            >
+              <span className="hidden md:block">Criar Consumo</span>
+              <Plus size={17} />
+            </button>
+          </div>
         </div>
       </div>
       {loading ? (
@@ -106,7 +123,7 @@ export function Consumption() {
               name={c.name}
               totalQtd={c.total_qtd + c.used_qtd}
               usedQtd={c.used_qtd}
-              openModal={() => setOpenModal(true)}
+              openModal={() => setOpenEditModal(true)}
               onSelectEquipament={() =>
                 handleSelectEquipament({
                   id: c.id,
@@ -124,6 +141,7 @@ export function Consumption() {
           Nenhum consumo encontrado.
         </span>
       )}
+      {/*Modal create */}
       <Modal
         tiltle="Cadastro de consumo"
         open={openModal}
@@ -134,7 +152,45 @@ export function Consumption() {
           onLoading={setIsSubmiting}
           openModal={() => setOpenModal(false)}
           onSuccess={() => loadConsumptions(month, year)}
+        >
+          <div className="flex justify-end gap-2 mt-5">
+            <Dialog.Close
+              className="p-1 border border-gray-300 rounded-md text-[#031D3B] font-semibold
+                             hover:bg-gray-200 transition-colors duration-150
+                             hover:cursor-pointer text-sm"
+            >
+              CANCELAR
+            </Dialog.Close>
+            <button
+              type="submit"
+              disabled={isSubmiting}
+              className={`p-1 ${
+                isSubmiting
+                  ? "bg-[#85a0bf] hover:cursor-none border-[#85a0bf]"
+                  : "bg-[#031D3B]  hover:bg-[#020F1F]"
+              } border border-[#031D3B] rounded-md text-gray-50 font-semibold
+                            transition-colors duration-150
+                             hover:cursor-pointer text-sm`}
+            >
+              {isSubmiting ? "SALVANDO..." : "SALVAR"}
+            </button>
+          </div>
+        </CreateConsumption>
+      </Modal>
+
+      {/*Modal Update */}
+      <Modal
+        tiltle="Cadastro de consumo"
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+        trigger={<></>}
+      >
+        <CreateConsumption
+          onLoading={setIsSubmiting}
+          openModal={() => setOpenEditModal(false)}
+          onSuccess={() => loadConsumptions(month, year)}
           equipament={selectedEquipament}
+          isUpdate={true}
         >
           <div className="flex justify-end gap-2 mt-5">
             <Dialog.Close

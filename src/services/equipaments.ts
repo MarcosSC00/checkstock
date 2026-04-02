@@ -8,7 +8,12 @@ export async function createEquipament(user: any, data: EquipamentType) {
     user_id: user.id,
   });
 
-  if (error) throw error;
+  if (error) {
+    if (error.code === "23505") {
+      throw new Error("Equipamento já existe");
+    }
+    throw error;
+  }
 }
 
 export async function getEquipaments() {

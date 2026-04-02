@@ -57,8 +57,10 @@ export function CreateEquipament({
       }
 
       onSuccess?.();
-    } catch (error) {
-      toast.error("Erro ao criar quipamento.");
+    } catch (error: any) {
+      toast.error(error.message, {
+        id: "erroCreateEquipament",
+      });
       console.log("Erro ao criar qeuipamento", error);
     } finally {
       openModal?.();
