@@ -16,14 +16,12 @@ export function Footer() {
               Desenvolvido por{" "}
               <span className="font-bold">Marcos Silva Chaves</span>
             </h3>
-            <a href="#">
-              <div
-                className="hover:-translate-y-1.5 transition p-1 rounded-full
-                    hover:bg-blue-900 hover:text-gray-200"
-              >
-                <PhoneIcon size={18} />
-              </div>
-            </a>
+            <div className="flex items-center gap-2">
+              <PhoneIcon size={18} />
+              <span className="text-sm font-bold text-gray-700">
+                (98) 98248-8698
+              </span>
+            </div>
           </div>
         </div>
 

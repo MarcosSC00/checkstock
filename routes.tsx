@@ -5,6 +5,7 @@ import { Register } from "./src/pages/Register";
 import { Layout } from "./src/components/layout";
 import { Equipaments } from "./src/pages/Equipaments";
 import { Consumption } from "./src/pages/Consumption";
+import { PrivateRoute } from "./src/components/privateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +18,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <Layout />,
+    element: (
+      <PrivateRoute>
+        <Layout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "home",
