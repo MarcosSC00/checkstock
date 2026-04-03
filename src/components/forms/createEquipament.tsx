@@ -98,7 +98,7 @@ export function CreateEquipament({
         )}
         {isUpdate && (
           <div className="w-full flex gap-2 items-baseline">
-            <label htmlFor="phone" className="font-semibold text-sm mt-4">
+            <label htmlFor="quantity" className="font-semibold text-sm mt-4">
               Quantidade Atual:
             </label>
             <input
@@ -110,7 +110,7 @@ export function CreateEquipament({
             />
           </div>
         )}
-        <label htmlFor="phone" className="font-semibold text-sm mt-4">
+        <label htmlFor="quantity" className="font-semibold text-sm mt-4">
           {isUpdate ? "Adicionar:" : "Quantidade:"}
         </label>
         <input

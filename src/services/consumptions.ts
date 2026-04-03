@@ -18,8 +18,8 @@ export async function getConsumptionByEquipament(equipamentName: string) {
 }
 
 export async function getConsumptions(month: number, year: number) {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 1);
+  const startDate = new Date(Date.UTC(year, month - 1, 1));
+  const endDate = new Date(Date.UTC(year, month, 1));
   const { data, error } = await supabase
     .from("consumptions_summary")
     .select("*")

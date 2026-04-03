@@ -3,25 +3,23 @@ import { PhoneIcon } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="px-6 py-6">
+      <div className="px-6 pt-6">
         <div
-          className="flex flex-col md:flex-row items-start 
-        md:items-center md:justify-between gap-4"
+          className="w-full flex flex-col md:flex-row justify-between
+         md:items-center mb-4"
         >
-          <div className="w-full flex justify-between items-center mb-4">
-            <h3
-              className="text-slate-800 font-medium 
+          <h3
+            className="text-slate-800 font-medium 
             text-sm md:text-md"
-            >
-              Desenvolvido por{" "}
-              <span className="font-bold">Marcos Silva Chaves</span>
-            </h3>
-            <div className="flex items-center gap-2">
-              <PhoneIcon size={18} />
-              <span className="text-sm font-bold text-gray-700">
-                (98) 98248-8698
-              </span>
-            </div>
+          >
+            Desenvolvido por{" "}
+            <span className="font-bold">Marcos Silva Chaves</span>
+          </h3>
+          <div className="flex items-center gap-2 mt-3 md:mt-0">
+            <PhoneIcon size={18} />
+            <span className="text-sm font-bold text-gray-700">
+              (98) 98248-8698
+            </span>
           </div>
         </div>
 

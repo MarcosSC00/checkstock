@@ -175,15 +175,7 @@ export function Dashboard() {
                 <History size={18} />
               </div>
               {recentConsumptions && recentConsumptions.length > 0 ? (
-                recentConsumptions
-                  .slice(0, 5)
-                  .map((r: any) => (
-                    <RecentConsumptionCard
-                      date={r.consumed_at}
-                      name={r.equipament_name}
-                      quantity={r.quantity}
-                    />
-                  ))
+                <RecentConsumptionCard data={recentConsumptions.slice(0, 5)} />
               ) : (
                 <span className="text-xs text-red-500">
                   Nenhum histórico de consumo.

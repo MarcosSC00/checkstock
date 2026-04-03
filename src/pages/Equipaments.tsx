@@ -17,6 +17,9 @@ export function Equipaments() {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [equipaments, setEquipaments] = useState<EquipamentType[] | null>([]);
+  const [filteredEquipaments, setFilteredEquipaments] = useState<
+    EquipamentType[] | null
+  >([]);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const loadEquipaments = async () => {
@@ -24,6 +27,7 @@ export function Equipaments() {
       setLoading(true);
       const result = await getEquipaments();
       setEquipaments(result);
+      setFilteredEquipaments(result);
       toast.success("Equipamentos carregados com sucesso!", {
         id: "loadSuccessEquipaments",
       });
@@ -41,6 +45,18 @@ export function Equipaments() {
     setIsEditOpen(true);
     setSelectedEquipament(equipament);
     setOpenModal(false);
+  };
+  const handleFilter = (name: string) => {
+    if (!name) {
+      setFilteredEquipaments(equipaments);
+      return;
+    }
+    if (equipaments) {
+      const result = equipaments?.filter((e) =>
+        e.name.toLowerCase().includes(name.toLowerCase()),
+      );
+      setFilteredEquipaments(result);
+    }
   };
 
   useEffect(() => {
@@ -71,6 +87,7 @@ export function Equipaments() {
               type="text"
               placeholder="pesquisar..."
               className="pl-1 text-sm text-gray-600"
+              onChange={(e) => handleFilter(e.target.value)}
             />
             <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
           </div>
@@ -79,10 +96,10 @@ export function Equipaments() {
           <div className="w-full flex justify-center">
             <Loading />
           </div>
-        ) : equipaments && equipaments.length >= 1 ? (
+        ) : filteredEquipaments && filteredEquipaments.length >= 1 ? (
           <div className="p-1 w-full max-h-87.5 overflow-auto">
             <EquipamentCard
-              data={equipaments}
+              data={filteredEquipaments}
               openEditModal={handleEdit}
               onSuccess={loadEquipaments}
             />

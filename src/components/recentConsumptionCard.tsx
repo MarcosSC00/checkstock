@@ -1,24 +1,37 @@
 import { dateFormater } from "../utils/dateFormater";
 
 interface RecentConsumptionCardProps {
-  name: string;
-  date: string;
-  quantity: number;
+  data: any[];
 }
 
-export function RecentConsumptionCard({
-  date,
-  name,
-  quantity,
-}: RecentConsumptionCardProps) {
+export function RecentConsumptionCard({ data }: RecentConsumptionCardProps) {
   return (
-    <div
-      className="flex items-center justify-between
-        border-b border-gray-200 text-slate-700 py-2"
-    >
-      <h4 className="font-bold capitalize">{name}</h4>
-      <p className="text-sm font-bold">{dateFormater(date)}</p>
-      <p className="font-bold">{quantity}</p>
-    </div>
+    <table className="w-full text-sm">
+      <thead>
+        <tr
+          className="border-b text-xs border-gray-300 
+            uppercase bg-blue-200/80 text-nowrap"
+        >
+          <th className="py-1">Nome</th>
+          <th className="py-1">Data</th>
+          <th className="py-1">Quanitade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((d) => (
+          <tr className="border-b border-gray-200" key={d.id}>
+            <td className="text-center text-xs capitalize font-semibold text-gray-600 py-1">
+              {d.equipament_name}
+            </td>
+            <td className="text-center text-xs font-semibold text-gray-600 py-1">
+              {dateFormater(d.consumed_at)}
+            </td>
+            <td className="text-center text-xs font-semibold text-gray-600 py-1">
+              {d.quantity}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

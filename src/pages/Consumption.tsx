@@ -18,6 +18,9 @@ export function Consumption() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [consumptions, setConsumptions] = useState<any[] | null>([]);
+  const [filteredConsumptions, setfilteredConsumptions] = useState<
+    any[] | null
+  >([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   const loadConsumptions = async (month: number, year: number) => {
@@ -25,6 +28,7 @@ export function Consumption() {
       setLoading(true);
       const result = await getConsumptions(month, year);
       setConsumptions(result);
+      setfilteredConsumptions(result);
       toast.success("Dados carregados com sucesso.", {
         id: "successConsumptionLoad",
       });
@@ -42,6 +46,19 @@ export function Consumption() {
 
   const handleSelectEquipament = (data: any) => {
     setSelectedEquipament(data);
+  };
+
+  const handleFilter = (name: string) => {
+    if (!name) {
+      setfilteredConsumptions(consumptions);
+    }
+
+    if (consumptions) {
+      const result = consumptions?.filter((c) =>
+        c.name.toLowerCase().includes(name.toLowerCase()),
+      );
+      setfilteredConsumptions(result);
+    }
   };
 
   useEffect(() => {
@@ -89,6 +106,7 @@ export function Consumption() {
               type="text"
               placeholder="pesquisar..."
               className="pl-1 text-sm text-gray-600"
+              onChange={(e) => handleFilter(e.target.value)}
             />
             <Search className="p-1 bg-blue-700 text-gray-50 rounded-e-md" />
           </div>
@@ -112,12 +130,12 @@ export function Consumption() {
         <div className="w-full flex justify-center mt-10">
           <Loading />
         </div>
-      ) : consumptions && consumptions.length > 0 ? (
+      ) : filteredConsumptions && filteredConsumptions.length > 0 ? (
         <div
           className="grid grid-cols-1 md:grid-cols-3 
       lg:grid-cols-[auto_auto_auto_auto] gap-6 mt-10"
         >
-          {consumptions.map((c, index) => (
+          {filteredConsumptions.map((c, index) => (
             <ConsumptionCard
               key={index}
               name={c.name}
