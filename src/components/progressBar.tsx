@@ -1,5 +1,3 @@
-import { Divide } from "lucide-react";
-
 interface ProgressBarProps {
   total: number;
   consumed: number;

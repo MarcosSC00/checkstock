@@ -1,6 +1,5 @@
 import { MonitorSmartphone, PenBox, Trash2 } from "lucide-react";
 import type { EquipamentType } from "../types/equipamentType";
-import { dateFormater } from "../utils/dateFormater";
 import { toast } from "sonner";
 import { deleteEquipamentById } from "../services/equipaments";
 

@@ -12,11 +12,6 @@ export async function consumeEquipament(data: ConsumptionType, user: any) {
   if (error) throw error;
 }
 
-export async function getConsumptionByEquipament(equipamentName: string) {
-  const { data } = await supabase.from("consumptions").select();
-  return data;
-}
-
 export async function getConsumptions(month: number, year: number) {
   const startDate = new Date(Date.UTC(year, month - 1, 1));
   const endDate = new Date(Date.UTC(year, month, 1));
