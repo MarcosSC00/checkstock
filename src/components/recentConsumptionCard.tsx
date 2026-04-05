@@ -14,6 +14,7 @@ export function RecentConsumptionCard({ data }: RecentConsumptionCardProps) {
         >
           <th className="py-1">Nome</th>
           <th className="py-1">Data</th>
+          <th className="py-1">Autor</th>
           <th className="py-1">Quanitade</th>
         </tr>
       </thead>
@@ -25,6 +26,12 @@ export function RecentConsumptionCard({ data }: RecentConsumptionCardProps) {
             </td>
             <td className="text-center text-xs font-semibold text-gray-600 py-1">
               {dateFormater(d.consumed_at)}
+            </td>
+            <td
+              className="max-w-10 md:max-w-20 text-center text-xs font-semibold 
+            text-blue-600 py-1 truncate"
+            >
+              {d.user_email}
             </td>
             <td className="text-center text-xs font-semibold text-gray-600 py-1">
               {d.quantity}

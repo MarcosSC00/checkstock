@@ -57,6 +57,7 @@ export function Dashboard() {
   useEffect(() => {
     loadData();
   }, []);
+  console.log(recentConsumptions);
 
   return (
     <div className="mt-10">

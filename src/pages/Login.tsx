@@ -62,7 +62,11 @@ export function Login() {
               className="border border-gray-300 rounded-sm px-1 py-1 text-sm
               text-gray-500"
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-xs text-red-500">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col w-full mt-4">
@@ -81,7 +85,11 @@ export function Login() {
               className="border border-gray-300 rounded-sm px-1 py-1 text-sm
               text-gray-700"
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password && (
+              <span className="text-xs text-red-500">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           <button

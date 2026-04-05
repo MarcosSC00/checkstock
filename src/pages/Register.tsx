@@ -24,7 +24,7 @@ export function Register() {
       navigate("/");
     } catch (error) {
       console.error("Erro ao cadastrar usuário", error);
-      toast.error("Erro ao cdastrar usuário.");
+      toast.error("Erro ao cadastrar usuário.");
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,11 @@ export function Register() {
               })}
               className="text-gray-500 border border-gray-300 rounded-sm px-1 py-1 text-sm"
             />
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-xs text-red-500">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col w-full mt-4">
@@ -81,11 +85,18 @@ export function Register() {
               placeholder="Senha"
               {...register("password", {
                 required: "Senha obrigatória.",
-                minLength: 6,
+                minLength: {
+                  value: 6,
+                  message: "A senha deve ter no mínimo 6 caracteres.",
+                },
               })}
               className="text-gray-500 border border-gray-300 rounded-sm px-1 py-1 text-sm"
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password && (
+              <span className="text-xs text-red-500">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           <button

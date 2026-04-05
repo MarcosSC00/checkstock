@@ -42,7 +42,7 @@ export function EquipamentCard({
             uppercase bg-blue-200/80 text-nowrap"
         >
           <th className="px-4 py-3 text-center">Nome</th>
-          <th className="px-4 py-3 text-center">Atualização</th>
+          <th className="px-4 py-3 text-center">Autor</th>
           <th className="px-4 py-3 text-center">Quantidade Disp.</th>
           <th className="px-4 py-3 text-center">Ações</th>
         </tr>
@@ -55,7 +55,10 @@ export function EquipamentCard({
               text-gray-600"
           >
             <td>
-              <div className="flex w-fit px-4 gap-2 items-center justify-self-center truncate">
+              <div
+                className="flex px-4 gap-1 items-center 
+              justify-self-center py-2"
+              >
                 <div className="border border-gray-400 p-1 rounded-sm">
                   <MonitorSmartphone size={20} />
                 </div>
@@ -64,23 +67,10 @@ export function EquipamentCard({
                 </h2>
               </div>
             </td>
-            <td>
-              <div className="flex flex-col justify-self-center py-2 text-center">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-semibold">
-                    Ult. Atualização:
-                  </span>
-                  <span className="text-[9px]">
-                    {d.updated_at && dateFormater(d.updated_at)}
-                  </span>
-                </div>
-                <p className="text-[10px]">
-                  por{" "}
-                  <span className="text-blue-600 font-semibold">
-                    {d.users.email}
-                  </span>
-                </p>
-              </div>
+            <td className="max-w-10 md:max-w-20 truncate text-center">
+              <span className="text-blue-600 font-semibold">
+                {d.users.email}
+              </span>
             </td>
             <td>
               <span className="flex justify-self-center">{d.quantity}</span>

@@ -17,14 +17,7 @@ export async function registerUser(email: string, password: string) {
   });
 
   if (error) throw error;
-  const user = data.user;
-
-  if (user) {
-    await supabase.from("users").insert({
-      id: user.id,
-      email: user.email,
-    });
-  }
+  return data;
 }
 
 export async function getUser() {
