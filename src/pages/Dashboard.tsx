@@ -57,7 +57,6 @@ export function Dashboard() {
   useEffect(() => {
     loadData();
   }, []);
-  console.log(recentConsumptions);
 
   return (
     <div className="mt-10">
@@ -175,8 +174,13 @@ export function Dashboard() {
                 <h4 className="font-bold text-sm">Consumos Recentes</h4>
                 <History size={18} />
               </div>
+
               {recentConsumptions && recentConsumptions.length > 0 ? (
-                <RecentConsumptionCard data={recentConsumptions.slice(0, 5)} />
+                <div className="w-full overflow-x-auto">
+                  <RecentConsumptionCard
+                    data={recentConsumptions.slice(0, 5)}
+                  />
+                </div>
               ) : (
                 <span className="text-xs text-red-500">
                   Nenhum histórico de consumo.

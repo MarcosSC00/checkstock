@@ -1,4 +1,4 @@
-import { MonitorSmartphone, PenBox, Trash2 } from "lucide-react";
+import { PenBox, Trash2 } from "lucide-react";
 import type { EquipamentType } from "../types/equipamentType";
 import { toast } from "sonner";
 import { deleteEquipamentById } from "../services/equipaments";
@@ -55,13 +55,13 @@ export function EquipamentCard({
           >
             <td>
               <div
-                className="flex px-4 gap-1 items-center 
+                className="w-full px-4
               justify-self-center py-2"
               >
-                <div className="border border-gray-400 p-1 rounded-sm">
-                  <MonitorSmartphone size={20} />
-                </div>
-                <h2 className="text-sm text-gray-700 font-bold capitalize">
+                <h2
+                  className="text-sm text-gray-700 font-bold 
+                capitalize text-nowrap"
+                >
                   {d.name}
                 </h2>
               </div>
